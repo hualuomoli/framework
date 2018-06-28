@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>com.github.hualuomoli</groupId>
+    <artifactId>hualuomoli</artifactId>
+    <version>1.6.5</version>
+    <relativePath>../../pom.xml</relativePath>
+  </parent>
+
+  <artifactId>hualuomoli-atomikos</artifactId>
+  <packaging>jar</packaging>
+
+  <properties>
+
+    <atomikos.version>3.9.1</atomikos.version>
+    <jta.version>1.1</jta.version>
+
+  </properties>
+
+  <dependencies>
+
+    <!-- atomikos -->
+    <dependency>
+      <groupId>com.atomikos</groupId>
+      <artifactId>atomikos-util</artifactId>
+      <version>${atomikos.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.atomikos</groupId>
+      <artifactId>transactions</artifactId>
+      <version>${atomikos.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.atomikos</groupId>
+      <artifactId>transactions-api</artifactId>
+      <version>${atomikos.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.atomikos</groupId>
+      <artifactId>transactions-jdbc</artifactId>
+      <version>${atomikos.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.atomikos</groupId>
+      <artifactId>transactions-jta</artifactId>
+      <version>${atomikos.version}</version>
+    </dependency>
+
+    <!-- jdbc deprecated -->
+    <dependency>
+      <groupId>com.atomikos</groupId>
+      <artifactId>transactions-jdbc-deprecated</artifactId>
+      <version>3.8.0</version>
+    </dependency>
+
+    <!-- jta -->
+    <dependency>
+      <groupId>javax.transaction</groupId>
+      <artifactId>jta</artifactId>
+      <version>${jta.version}</version>
+    </dependency>
+
+  </dependencies>
+
+</project>

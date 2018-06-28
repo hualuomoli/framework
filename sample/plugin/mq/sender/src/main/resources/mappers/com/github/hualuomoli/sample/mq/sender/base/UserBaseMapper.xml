@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.hualuomoli.sample.mq.sender.base.mapper.UserBaseMapper">
+
+  <!-- 返回的列 -->
+  <sql id="columns">
+    `id` as "id",
+    `username` as "username",
+    `nickname` as "nickname",
+    `age` as "age",
+    `sex` as "sex",
+    `state` as "state",
+    `status` as "status",
+    `remark` as "remark"
+  </sql>
+  
+  <!-- 查询的列 -->
+  <sql id="querys">
+    <if test="id != null and id != ''"> 
+      and `id` = #{id}
+    </if>
+    <if test="username != null and username != ''"> 
+      and `username` = #{username}
+    </if>
+    <if test="nickname != null and nickname != ''"> 
+      and `nickname` = #{nickname}
+    </if>
+    <if test="age != null"> 
+      and `age` = #{age}
+    </if>
+    <if test="sex != null and sex != ''"> 
+      and `sex` = #{sex}
+    </if>
+    <if test="state != null"> 
+      and `state` = #{state}
+    </if>
+    <if test="status != null"> 
+      and `status` = #{status}
+    </if>
+    <if test="remark != null and remark != ''"> 
+      and `remark` = #{remark}
+    </if>
+  </sql>
+  
+  <!-- 根据主键id查询 -->
+  <select id="get" resultType="com.github.hualuomoli.sample.mq.sender.base.entity.User">
+    select 
+      <include refid="columns" />
+    from `t_user`
+    where `id` =  #{id}
+  </select>
+  
+  <!-- 添加 -->
+  <insert id="insert">
+    insert into `t_user` (
+      `id`,
+      `username`,
+      `nickname`,
+      `age`,
+      `sex`,
+      `state`,
+      `status`,
+      `remark`
+    ) values (
+      #{id},
+      #{username},
+      #{nickname},
+      #{age},
+      #{sex},
+      #{state},
+      #{status},
+      #{remark}
+    )
+  </insert>
+
+  <!-- 批量添加 -->
+  <insert id="batchInsert">
+    insert into `t_user` (
+      `id`,
+      `username`,
+      `nickname`,
+      `age`,
+      `sex`,
+      `state`,
+      `status`,
+      `remark`
+    ) 
+    <foreach collection="list" item="obj" separator="union all">
+    select
+      #{obj.id},
+      #{obj.username},
+      #{obj.nickname},
+      #{obj.age},
+      #{obj.sex},
+      #{obj.state},
+      #{obj.status},
+      #{obj.remark}
+    </foreach>
+  </insert>
+  
+  <!-- 根据主键id修改 -->
+  <update id="update">
+    update `t_user`
+    <set>
+      <if test="username != null and username != ''"> 
+        `username` = #{username},
+      </if>
+      <if test="nickname != null and nickname != ''"> 
+        `nickname` = #{nickname},
+      </if>
+      <if test="age != null"> 
+        `age` = #{age},
+      </if>
+      <if test="sex != null and sex != ''"> 
+        `sex` = #{sex},
+      </if>
+      <if test="state != null"> 
+        `state` = #{state},
+      </if>
+      <if test="status != null"> 
+        `status` = #{status},
+      </if>
+      <if test="remark != null and remark != ''"> 
+        `remark` = #{remark},
+      </if>
+    </set>
+    where id =  #{id}
+  </update>
+
+  
+  <!-- 根据主键id删除 -->
+  <delete id="delete">
+    delete from `t_user` where id =  #{id}
+  </delete>
+  
+
+  <!-- 根据主键id数组删除 -->
+  <delete id="deleteByArray">
+    delete from `t_user`
+    <where>
+      <foreach collection="ids" item="id" separator="or">
+        id =  #{id}
+      </foreach>
+      </where>
+  </delete>
+  
+  <!-- 查询列表 -->
+  <select id="findList" resultType="com.github.hualuomoli.sample.mq.sender.base.entity.User">
+    select
+      <include refid="columns" />
+    from `t_user`
+    <where>
+      <include refid="querys" />
+    </where>
+  </select>
+  
+</mapper>

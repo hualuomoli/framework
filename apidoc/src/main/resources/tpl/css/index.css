@@ -1,0 +1,26 @@
+.container {
+	width: 800px;
+	margin: 20px auto;
+}
+
+ul {
+	list-style: none;
+}
+
+li {
+	width: 100%;
+	padding: 3px;
+	text-align: left;
+}
+
+li:nth-child(odd) {
+	background-color: #ccc;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	color: #f5f2a9;
+}

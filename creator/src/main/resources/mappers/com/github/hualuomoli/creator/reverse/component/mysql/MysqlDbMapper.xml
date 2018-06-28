@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.hualuomoli.creator.reverse.component.mysql.mapper.MysqlDbMapper">
+  
+  <select id="findComment" resultType="java.lang.String">
+    SELECT TABLE_COMMENT
+    FROM `information_schema`.`TABLES`
+    WHERE 1 = 1 
+    AND table_schema = #{db} 		   /** 表所在数据库 */
+    AND table_name = #{tableName}  /** 你要查的表 */     
+  </select>
+
+  <select id="findList" resultType="com.github.hualuomoli.creator.reverse.component.entity.DBColumn">
+    SELECT
+    	c.COLUMN_NAME 				AS "columnName",
+    	c.DATA_TYPE 				AS "dataType",
+    	c.CHARACTER_MAXIMUM_LENGTH 	AS "length",
+    	c.NUMERIC_PRECISION 		AS "precision",
+    	c.NUMERIC_SCALE 			AS "scale",
+    	c.COLUMN_COMMENT 			AS "comment"
+    FROM `information_schema`.`COLUMNS` c
+    WHERE 1 = 1 
+    AND table_schema = #{db} 		/** 表所在数据库 */
+    AND table_name = #{tableName}	/** 你要查的表 */    
+    ORDER BY c.ORDINAL_POSITION
+  </select>
+
+  <select id="findPrimaryKey" resultType="java.lang.String">
+    SELECT c.COLUMN_NAME
+    FROM `information_schema`.`COLUMNS` c
+    WHERE 1 = 1
+    AND table_schema = #{db}    /** 表所在数据库 */
+    AND table_name = #{tableName} /** 你要查的表 */    
+    AND c.COLUMN_KEY = 'PRI' /** 主键 */
+  </select>
+  
+  <select id="findUniqueKey" resultType="com.github.hualuomoli.creator.reverse.component.entity.DBUniqueIndex">
+    select f.INDEX_ID as "indexId", f.`NAME` as "name", f.POS as "pos"
+    from `information_schema`.`INNODB_SYS_FIELDS` f 
+    inner join  `information_schema`.`INNODB_SYS_INDEXES` i on (f.INDEX_ID = i.INDEX_ID and i.TYPE = 2)
+    inner join `information_schema`.`INNODB_SYS_TABLES` t on i.TABLE_ID = t.TABLE_ID
+    where t.`NAME` = #{name}
+  </select>
+
+</mapper>

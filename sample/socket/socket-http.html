@@ -1,0 +1,97 @@
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset = utf-8"/>
+		<title>WebSocket客户端</title>
+	</head>
+	<body>
+		<form onSubmit="return false;">
+			<input type="text" id="message" value=""/>
+      <br/><br/>
+      <input type="button" id="connect" value="建立连接" disabled="disabled" />
+      <br/><br/>
+      <input type="button" id="sendMessage" value="发送消息" disabled="disabled" />
+			<br/><br/>
+			<input type="button" id="close" value="关闭连接" disabled="disabled" />
+			<hr color="red"/>
+			<h2>客户端接收到服务端返回的应答消息</h2>
+			<textarea id = "result" style = "width:1024px; height:300px"></textarea>
+		</form>
+		
+<script src="https://cdn.bootcss.com/jquery/2.2.4/jquery.js"></script>
+<script type="text/javascript">
+var socket;
+var result;
+
+(function() {
+	result = $('#result');
+	if(!window.WebSocket) {
+	  window.WebSocket = window.MozWebSocket;
+	}
+	if(window.WebSocket) {
+		$('#connect').removeAttr('disabled');
+	}
+})();
+
+// 建立连接
+$('#connect').bind('click', function() {
+	connect();
+});
+
+// 发送消息(如果发送的消息是error抛出运行时异常)
+$('#sendMessage').bind('click', function() {
+	send();
+});
+
+// 关闭连接
+$('#close').bind('click', function() {
+	close();
+});
+
+// 建立连接
+function connect() {
+	// WebSocket协议的URL使用ws://开头，另外安全的WebSocket协议使用wss://开头
+  socket = new WebSocket(" ws://192.168.1.31:10681");
+  
+  // 监听事件
+  socket.onmessage = function(event){
+    result.append(event.data).append('\r\n');
+  };
+
+  socket.onopen = function(event){
+    result.append("你当前的浏览器支持WebSocket,请进行后续操作\r\n");
+    $('#sendMessage').removeAttr('disabled');
+    $('#close').removeAttr('disabled');
+  };
+
+  socket.onclose = function(event){
+    result.val('WebSocket连接已经关闭');
+    close();
+  };
+      
+  socket.onerror = function(event){
+      result.val('WebSocket连接出现异常');
+  };
+  
+  $(this).attr('disabled', 'disabled');
+}
+
+// 发送消息(如果发送的消息是error抛出运行时异常)
+function send() {
+	if(socket.readyState == WebSocket.OPEN){
+    socket.send($('#message').val());
+   }
+}
+
+// 关闭连接
+function close() {
+	socket.close();
+
+  $('#close').attr('disabled', 'disabled');
+  $('#sendMessage').attr('disabled', 'disabled');
+  $('#connect').removeAttr('disabled');
+}
+
+</script>
+		
+	</body>
+</html>

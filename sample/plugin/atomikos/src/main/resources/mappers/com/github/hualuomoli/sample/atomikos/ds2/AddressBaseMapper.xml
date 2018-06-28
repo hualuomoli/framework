@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.hualuomoli.sample.atomikos.ds2.mapper.AddressBaseMapper">
+
+  <!-- 返回的列 -->
+  <sql id="columns">
+    `id` as "id",
+    `areaCode` as "areaCode",
+    `province` as "province",
+    `city` as "city",
+    `county` as "county",
+    `detailAddress` as "detailAddress"
+  </sql>
+  
+  <!-- 查询的列 -->
+  <sql id="querys">
+    <if test="id != null and id != ''"> 
+      and `id` = #{id}
+    </if>
+    <if test="areaCode != null and areaCode != ''"> 
+      and `areaCode` = #{areaCode}
+    </if>
+    <if test="province != null and province != ''"> 
+      and `province` = #{province}
+    </if>
+    <if test="city != null and city != ''"> 
+      and `city` = #{city}
+    </if>
+    <if test="county != null and county != ''"> 
+      and `county` = #{county}
+    </if>
+    <if test="detailAddress != null and detailAddress != ''"> 
+      and `detailAddress` = #{detailAddress}
+    </if>
+  </sql>
+  
+  <!-- 根据主键id查询 -->
+  <select id="get" resultType="com.github.hualuomoli.sample.atomikos.ds2.entity.Address">
+    select 
+      <include refid="columns" />
+    from `t_address`
+    where `id` =  #{id}
+  </select>
+  
+  <!-- 添加 -->
+  <insert id="insert">
+    insert into `t_address` (
+      `id`,
+      `areaCode`,
+      `province`,
+      `city`,
+      `county`,
+      `detailAddress`
+    ) values (
+      #{id},
+      #{areaCode},
+      #{province},
+      #{city},
+      #{county},
+      #{detailAddress}
+    )
+  </insert>
+
+  <!-- 批量添加 -->
+  <insert id="batchInsert">
+    insert into `t_address` (
+      `id`,
+      `areaCode`,
+      `province`,
+      `city`,
+      `county`,
+      `detailAddress`
+    ) 
+    <foreach collection="list" item="obj" separator="union all">
+    select
+      #{obj.id},
+      #{obj.areaCode},
+      #{obj.province},
+      #{obj.city},
+      #{obj.county},
+      #{obj.detailAddress}
+    </foreach>
+  </insert>
+  
+  <!-- 根据主键id修改 -->
+  <update id="update">
+    update `t_address`
+    <set>
+      <if test="areaCode != null and areaCode != ''"> 
+        `areaCode` = #{areaCode},
+      </if>
+      <if test="province != null and province != ''"> 
+        `province` = #{province},
+      </if>
+      <if test="city != null and city != ''"> 
+        `city` = #{city},
+      </if>
+      <if test="county != null and county != ''"> 
+        `county` = #{county},
+      </if>
+      <if test="detailAddress != null and detailAddress != ''"> 
+        `detailAddress` = #{detailAddress},
+      </if>
+    </set>
+    where id =  #{id}
+  </update>
+
+  
+  <!-- 根据主键id删除 -->
+  <delete id="delete">
+    delete from `t_address` where id =  #{id}
+  </delete>
+  
+
+  <!-- 根据主键id数组删除 -->
+  <delete id="deleteByArray">
+    delete from `t_address`
+    <where>
+      <foreach collection="ids" item="id" separator="or">
+        id =  #{id}
+      </foreach>
+      </where>
+  </delete>
+  
+  <!-- 查询列表 -->
+  <select id="findList" resultType="com.github.hualuomoli.sample.atomikos.ds2.entity.Address">
+    select
+      <include refid="columns" />
+    from `t_address`
+    <where>
+      <include refid="querys" />
+    </where>
+  </select>
+  
+</mapper>

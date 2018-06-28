@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>com.github.hualuomoli</groupId>
+    <artifactId>hualuomoli-sample</artifactId>
+    <version>1.6.5</version>
+    <relativePath>../../../pom.xml</relativePath>
+  </parent>
+
+  <artifactId>hualuomoli-sample-ws-provider</artifactId>
+  <packaging>war</packaging>
+
+  <properties>
+
+    <!-- cxf -->
+    <cxf.version>3.1.10</cxf.version>
+    <wsdl4j.version>1.6.3</wsdl4j.version>
+
+  </properties>
+
+  <dependencies>
+
+    <!-- hualuomoli -->
+    <dependency>
+      <groupId>com.github.hualuomoli</groupId>
+      <artifactId>hualuomoli-framework</artifactId>
+      <version>${project.parent.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.github.hualuomoli</groupId>
+      <artifactId>hualuomoli-ws-provider</artifactId>
+      <version>${project.parent.version}</version>
+    </dependency>
+    <!-- spring -->
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-web</artifactId>
+      <version>${spring.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-webmvc</artifactId>
+      <version>${spring.version}</version>
+    </dependency>
+
+    <!-- ==================== provided ==================== -->
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>javax.servlet-api</artifactId>
+      <version>3.0.1</version>
+      <scope>provided</scope>
+    </dependency>
+
+  </dependencies>
+
+</project>

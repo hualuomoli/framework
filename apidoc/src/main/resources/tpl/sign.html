@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>签名</title>
+	<link rel="stylesheet" href="css/sign.css" />
+</head>
+<body>
+	<div class="container">
+		<div class="header">
+			<h1>自行实现签名</h1>
+			<p>如果未使用支付宝开放平台SDK，需要自行实现签名过程。</p>
+		</div>
+		
+		<!-- 内容 -->
+		<div class="content">
+			<h2>如何签名</h2>
+			
+			<!-- 步骤 -->
+			<div class="step step1">
+				<span>1.筛选并排序</span>
+				<p>获取所有请求参数，不包括字节类型参数，如文件、字节流，剔除sign字段，剔除值为空的参数，并按照第一个字符的键值ASCII码递增排序（字母升序排序），如果遇到相同字符则按照第二个字符的键值ASCII码递增排序，以此类推。</p>
+			</div>
+			<!-- ./步骤 -->
+	
+			<!-- 步骤 -->
+			<div class="step step2">
+				<span>2.拼接</span>
+				<p>将排序后的参数与其对应值，组合成“参数=参数值”的格式，并且把这些参数用&amp;字符连接起来，此时生成的字符串为待签名字符串。</p>
+				
+				<div class="sample">
+					<span>例如下面的请求示例，参数值都是示例，开发者参考格式即可：</span>
+					<div class="code">
+						<div class="line">
+							<code class="plain">app_id=</code>
+							<code class="comments">2014072300007148</code>
+						</div>
+						<div class="line">
+							<code class="plain">method=</code>
+							<code class="comments">alipay.mobile.public.menu.add</code>
+						</div>
+						<div class="line">
+							<code class="plain">charset=</code>
+							<code class="comments">UTF-8</code>
+						</div>
+						<div class="line">
+							<code class="plain">sign_type=</code>
+							<code class="comments">RSA</code>
+						</div>
+						<div class="line">
+							<code class="plain">timestamp=</code>
+							<code class="comments">2014-07-24 03:07:50</code>
+						</div>
+						<div class="line">
+							<code class="plain">biz_content=</code>
+							<code class="comments">{"button":[{"actionParam":"ZFB_HFCZ","actionType":"out","name":"话费充值"},{"name":"查询","subButton":[{"actionParam":"ZFB_YECX","actionType":"out","name":"余额查询"},{"actionParam":"ZFB_LLCX","actionType":"out","name":"流量查询"},{"actionParam":"ZFB_HFCX","actionType":"out","name":"话费查询"}]},{"actionParam":"http://m.alipay.com","actionType":"link","name":"最新优惠"}]}</code>
+						</div>
+						<div class="line">
+							<code class="plain">sign=</code>
+							<code class="comments">e9zEAe4TTQ4LPLQvETPoLGXTiURcxiAKfMVQ6Hrrsx2hmyIEGvSfAQzbLxHrhyZ48wOJXTsD4FPnt+YGdK57+fP1BCbf9rIVycfjhYCqlFhbTu9pFnZgT55W+xbAFb9y7vL0MyAxwXUXvZtQVqEwW7pURtKilbcBTEW7TAxzgro=</code>
+						</div>
+					</div>
+					<span>则待签名字符串为：</span>
+					<div class="code">
+						<code class="plain">app_id=</code><code class="comments">2014072300007148</code>
+						<code class="plain">&amp;biz_content=</code><code class="comments">{"button":[{"actionParam":"ZFB_HFCZ","actionType":"out","name":"话费充值"},{"name":"查询","subButton":[{"actionParam":"ZFB_YECX","actionType":"out","name":"余额查询"},{"actionParam":"ZFB_LLCX","actionType":"out","name":"流量查询"},{"actionParam":"ZFB_HFCX","actionType":"out","name":"话费查询"}]},{"actionParam":"http://m.alipay.com","actionType":"link","name":"最新优惠"}]}</code>
+						<code class="plain">&amp;charset=GBK</code>
+						<code class="plain">&amp;method=alipay.mobile.public.menu.add</code>
+						<code class="plain">&amp;sign_type=RSA</code>
+						<code class="plain">&amp;timestamp=</code><code class="comments">2014-07-24 03:07:50</code>
+						<code class="plain">&amp;version=</code><code class="comments">1.0</code>
+					</div>
+				</div>
+
+			</div>
+			<!-- ./步骤 -->
+
+			<!-- 步骤 -->
+			<div class="step step3">
+				<span>3.调用签名函数</span>
+				<p>使用各自语言对应的SHA256WithRSA(对应sign_type为RSA2)或SHA1WithRSA(对应sign_type为RSA)签名函数利用商户私钥对待签名字符串进行签名，并进行Base64编码。</p>
+			</div>
+			<!-- ./步骤 -->
+
+
+			<!-- 步骤 -->
+			<div class="step step4">
+				<span>4.把生成的签名赋值给sign参数，拼接到请求参数中。</span>
+			</div>
+			<!-- ./步骤 -->
+
+
+		</div>
+		<!-- ./内容 -->
+
+	</div>
+</body>
+</html>

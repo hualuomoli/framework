@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.hualuomoli.sample.atomikos.ds2.query.mapper.AddressQueryMapper">
+
+  <!-- 返回的列 -->
+  <sql id="columns">
+    `id` as "id",
+    `areaCode` as "areaCode",
+    `province` as "province",
+    `city` as "city",
+    `county` as "county",
+    `detailAddress` as "detailAddress"
+  </sql>
+  
+  <!-- 查询的列 -->
+  <sql id="querys">
+    <if test="areaCode != null and areaCode != ''">
+      and `areaCode` = #{areaCode}
+    </if>
+    <if test="areaCodeLeftLike != null and areaCodeLeftLike != ''"> 
+      and `areaCode` like CONCAT(#{areaCodeLeftLike}, '%')
+    </if>
+    <if test="areaCodeRightLike != null and areaCodeRightLike != ''"> 
+      and `areaCode` like CONCAT('%', #{areaCodeRightLike})
+    </if>
+    <if test="areaCodeLike != null and areaCodeLike != ''"> 
+      and `areaCode` like CONCAT('%', #{areaCodeLike}, '%')
+    </if>
+    <if test="province != null and province != ''">
+      and `province` = #{province}
+    </if>
+    <if test="provinceLeftLike != null and provinceLeftLike != ''"> 
+      and `province` like CONCAT(#{provinceLeftLike}, '%')
+    </if>
+    <if test="provinceRightLike != null and provinceRightLike != ''"> 
+      and `province` like CONCAT('%', #{provinceRightLike})
+    </if>
+    <if test="provinceLike != null and provinceLike != ''"> 
+      and `province` like CONCAT('%', #{provinceLike}, '%')
+    </if>
+    <if test="city != null and city != ''">
+      and `city` = #{city}
+    </if>
+    <if test="cityLeftLike != null and cityLeftLike != ''"> 
+      and `city` like CONCAT(#{cityLeftLike}, '%')
+    </if>
+    <if test="cityRightLike != null and cityRightLike != ''"> 
+      and `city` like CONCAT('%', #{cityRightLike})
+    </if>
+    <if test="cityLike != null and cityLike != ''"> 
+      and `city` like CONCAT('%', #{cityLike}, '%')
+    </if>
+    <if test="county != null and county != ''">
+      and `county` = #{county}
+    </if>
+    <if test="countyLeftLike != null and countyLeftLike != ''"> 
+      and `county` like CONCAT(#{countyLeftLike}, '%')
+    </if>
+    <if test="countyRightLike != null and countyRightLike != ''"> 
+      and `county` like CONCAT('%', #{countyRightLike})
+    </if>
+    <if test="countyLike != null and countyLike != ''"> 
+      and `county` like CONCAT('%', #{countyLike}, '%')
+    </if>
+    <if test="detailAddress != null and detailAddress != ''">
+      and `detailAddress` = #{detailAddress}
+    </if>
+    <if test="detailAddressLeftLike != null and detailAddressLeftLike != ''"> 
+      and `detailAddress` like CONCAT(#{detailAddressLeftLike}, '%')
+    </if>
+    <if test="detailAddressRightLike != null and detailAddressRightLike != ''"> 
+      and `detailAddress` like CONCAT('%', #{detailAddressRightLike})
+    </if>
+    <if test="detailAddressLike != null and detailAddressLike != ''"> 
+      and `detailAddress` like CONCAT('%', #{detailAddressLike}, '%')
+    </if>
+  </sql>
+  
+  <!-- 查询列表 -->
+  <select id="findList" resultType="com.github.hualuomoli.sample.atomikos.ds2.entity.Address">
+    select
+      <include refid="columns" />
+    from `t_address`
+    <where>
+      <include refid="querys" />
+    </where>
+  </select>
+  
+</mapper>

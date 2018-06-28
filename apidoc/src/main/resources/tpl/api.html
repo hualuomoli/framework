@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>API</title>
+    <link rel="stylesheet" href="css/font-awesome.css" />
+    <link rel="stylesheet" href="css/api.css" />
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h3>alipay.trade.query</h3>
+            <span class="description">(统一收单线下交易查询)</span>
+            <p>该接口提供所有支付宝支付订单的查询，商户可以通过该接口主动查询订单状态，完成下一步的业务逻辑。 需要调用查询接口的情况： 当商户后台、网络、服务器等出现异常，商户系统最终未接收到支付通知； 调用支付接口后，返回系统错误或未知交易状态情况； 调用alipay.trade.pay，返回INPROCESS的状态； 调用alipay.trade.cancel之前，需确认支付状态；</p>
+        </div>
+        <!-- content -->
+        <div class="content">
+            <!-- url -->
+            <div class="data url">
+                <h5>请求地址：</h5>
+                <table>
+                    <tr>
+                        <th width="35%">环境</th>
+                        <th width="65%">HTTPS请求地址</th>
+                    </tr>
+                    <tr>
+                        <td>正式环境</td>
+                        <td>https://openapi.alipay.com/gateway.do</td>
+                    </tr>
+                </table>
+            </div>
+            <!-- ./url -->
+
+            <!-- 公共请求参数 -->
+            <div class="data common-request">
+                <h5>公共请求参数：</h5>
+                <table>
+                    <tr>
+                        <th>参数</th>
+                        <th>类型</th>
+                        <th>是否必填</th>
+                        <th>最大长度</th>
+                        <th>描述</th>
+                        <th>示例值</th>
+                    </tr>
+                    <tr>
+                        <td>app_id</td>
+                        <td>String</td>
+                        <td>是</td>
+                        <td>32</td>
+                        <td>支付宝分配给开发者的应用ID</td>
+                        <td>2014072300007148</td>
+                    </tr>
+                    <tr>
+                        <td>method</td>
+                        <td>String</td>
+                        <td>是</td>
+                        <td>128</td>
+                        <td>接口名称</td>
+                        <td>alipay.trade.query</td>
+                    </tr>
+                    <tr>
+                        <td>format</td>
+                        <td>String</td>
+                        <td>否</td>
+                        <td>40</td>
+                        <td>仅支持JSON</td>
+                        <td>JSON</td>
+                    </tr>
+                    <tr>
+                        <td>charset</td>
+                        <td>String</td>
+                        <td>是</td>
+                        <td>10</td>
+                        <td>请求使用的编码格式，如utf-8,gbk,gb2312等</td>
+                        <td>utf-8</td>
+                    </tr>
+                    <tr>
+                        <td>sign_type</td>
+                        <td>String</td>
+                        <td>是</td>
+                        <td>10</td>
+                        <td>商户生成签名字符串所使用的签名算法类型，目前支持RSA2和RSA，推荐使用RSA2</td>
+                        <td>RSA2</td>
+                    </tr>
+                    <tr>
+                        <td>sign</td>
+                        <td>String</td>
+                        <td>是</td>
+                        <td>256</td>
+                        <td>商户请求参数的签名串，详见签名</td>
+                        <td>详见示例</td>
+                    </tr>
+                    <tr>
+                        <td>timestamp</td>
+                        <td>String</td>
+                        <td>是</td>
+                        <td>19</td>
+                        <td>发送请求的时间，格式"yyyy-MM-dd HH:mm:ss"</td>
+                        <td>2014-07-24 03:07:50</td>
+                    </tr>
+                    <tr>
+                        <td>version</td>
+                        <td>String</td>
+                        <td>是</td>
+                        <td>6</td>
+                        <td>调用的接口版本，固定为：1.0</td>
+                        <td>1.0</td>
+                    </tr>
+                    <tr>
+                        <td>biz_content</td>
+                        <td>String</td>
+                        <td>是</td>
+                        <td>-</td>
+                        <td>请求参数的集合，最大长度不限，除公共参数外所有请求参数都必须放在这个参数中传递，具体参照各产品快速接入文档</td>
+                        <td></td>
+                    </tr>
+                </table>
+            </div>
+            <!-- ./公共请求参数 -->
+            
+            <!-- 请求参数 -->
+            <div class="data request"></div>
+                <h5>请求参数</h5>
+                <table>
+                    <tr>
+                        <th>参数</th>
+                        <th>类型</th>
+                        <th>是否必填</th>
+                        <th>最大长度</th>
+                        <th>描述</th>
+                        <th>示例值</th>
+                    </tr>
+                    <tr>
+                        <td>out_trade_no</td>
+                        <td>String</td>
+                        <td>特殊可选</td>
+                        <td>64</td>
+                        <td>订单支付时传入的商户订单号,和支付宝交易号不能同时为空。trade_no,out_trade_no如果同时存在优先取trade_no</td>
+                        <td>20150320010101001</td>
+                    </tr>
+                    <tr>
+                        <td>trade_no</td>
+                        <td>String</td>
+                        <td>特殊可选</td>
+                        <td>64</td>
+                        <td>支付宝交易号，和商户订单号不能同时为空</td>
+                        <td>2014112611001004680 073956707</td>
+                    </tr>
+                </table>
+            </div>
+            <!-- ./请求参数 -->
+
+            <!-- 公共响应参数 -->
+            <div class="data common-response">
+                <h5>公共响应参数：</h5>
+                <table>
+                    <tr>
+                        <th>参数</th>
+                        <th>类型</th>
+                        <th>是否必填</th>
+                        <th>最大长度</th>
+                        <th>描述</th>
+                        <th>示例值</th>
+                    </tr>
+                    <tr>
+                        <td>code</td>
+                        <td>String</td>
+                        <td>是</td>
+                        <td>-</td>
+                        <td>网关返回码,详见文档</td>
+                        <td>40004</td>
+                    </tr>
+                    <tr>
+                        <td>msg</td>
+                        <td>String</td>
+                        <td>是</td>
+                        <td>-</td>
+                        <td>网关返回码描述,详见文档</td>
+                        <td>Business Failed</td>
+                    </tr>
+                    <tr>
+                        <td>sub_code</td>
+                        <td>String</td>
+                        <td>否</td>
+                        <td>-</td>
+                        <td>业务返回码,详见文档</td>
+                        <td>ACQ.TRADE_HAS_SUCCESS</td>
+                    </tr>
+                    <tr>
+                        <td>sub_msg</td>
+                        <td>String</td>
+                        <td>否</td>
+                        <td>-</td>
+                        <td>业务返回码描述,详见文档</td>
+                        <td>交易已被支付</td>
+                    </tr>
+                    <tr>
+                        <td>sign</td>
+                        <td>String</td>
+                        <td>是</td>
+                        <td>-</td>
+                        <td>签名,详见文档</td>
+                        <td>DZXh8eeTuAHoYE3w1J+POiPhfDxOYBfUNn1lkeT/V7P4zJdyojWEa6IZs6Hz0yDW5Cp/viufUb5I0/V5WENS3OYR8zRedqo6D+fUTdLHdc+EFyCkiQhBxIzgngPdPdfp1PIS7BdhhzrsZHbRqb7o4k3Dxc+AAnFauu4V6Zdwczo=</td>
+                    </tr>
+                </table>
+            </div>
+            <!-- ./公共响应参数 -->
+
+            <!-- 响应参数 -->
+            <div class="data response">
+                <h5>响应参数</h5>
+                <table>
+                    <tr>
+                        <th>参数</th>
+                        <th>类型</th>
+                        <th>是否必填</th>
+                        <th>最大长度</th>
+                        <th>描述</th>
+                        <th>示例值</th>
+                    </tr>
+                    <tr>
+                        <td>trade_no</td>
+                        <td>String</td>
+                        <td>是</td>
+                        <td>64</td>
+                        <td>支付宝交易号</td>
+                        <td>2013112011001004330000121536</td>
+                    </tr>
+                    <tr>
+                        <td>out_trade_no</td>
+                        <td>String</td>
+                        <td>是</td>
+                        <td>64</td>
+                        <td>商家订单号</td>
+                        <td>6823789339978248</td>
+                    </tr>
+                    <tr>
+                        <td>trade_status</td>
+                        <td>String</td>
+                        <td>是</td>
+                        <td>32</td>
+                        <td>交易状态：WAIT_BUYER_PAY（交易创建，等待买家付款）、TRADE_CLOSED（未付款交易超时关闭，或支付完成后全额退款）、TRADE_SUCCESS（交易支付成功）、TRADE_FINISHED（交易结束，不可退款）</td>
+                        <td>TRADE_CLOSED</td>
+                    </tr>
+                    <tr>
+                        <td>total_amount</td>
+                        <td>Price</td>
+                        <td>是</td>
+                        <td>11</td>
+                        <td>交易的订单金额，单位为元，两位小数。该参数的值为支付时传入的total_amount</td>
+                        <td>88.88</td>
+                    </tr>
+                    <tr>
+                        <td>receipt_amount</td>
+                        <td>String</td>
+                        <td>是</td>
+                        <td>11</td>
+                        <td>实收金额，单位为元，两位小数。该金额为本笔交易，商户账户能够实际收到的金额</td>
+                        <td>15.25</td>
+                    </tr>
+                    <tr>
+                        <td>buyer_pay_amount</td>
+                        <td>Price</td>
+                        <td>否</td>
+                        <td>11</td>
+                        <td>买家实付金额，单位为元，两位小数。该金额代表该笔交易买家实际支付的金额，不包含商户折扣等金额</td>
+                        <td>8.88</td>
+                    </tr>
+                    <tr>
+                        <td>point_amount</td>
+                        <td>Price</td>
+                        <td>否</td>
+                        <td>11</td>
+                        <td>积分支付的金额，单位为元，两位小数。该金额代表该笔交易中用户使用积分支付的金额，比如集分宝或者支付宝实时优惠等</td>
+                        <td>10</td>
+                    </tr>
+                    <tr>
+                        <td>send_pay_date</td>
+                        <td>String</td>
+                        <td>否</td>
+                        <td>32</td>
+                        <td>本次交易打款给卖家的时间</td>
+                        <td>2014-11-27 15:45:57</td>
+                    </tr>
+                    <tr>
+                        <td>discount_goods_detail</td>
+                        <td>String</td>
+                        <td>是</td>
+                        <td>-</td>
+                        <td>本次交易支付所使用的单品券优惠的商品优惠信息</td>
+                        <td>[{"goods_id":"STANDARD1026181538","goods_name":"雪碧","discount_amount":"100.00","voucher_id":"2015102600073002039000002D5O"}]</td>
+                    </tr>
+                    <tr class="level-control" data-open="#voucher_detail_list">
+                        <td>
+                            <i class="fa fa-plus-square-o"></i>
+                            <i class="fa fa-minus-square-o hide"></i>
+                            voucher_detail_list
+                        </td>
+                        <td>Array</td>
+                        <td>否</td>
+                        <td>-</td>
+                        <td>本交易支付时使用的所有优惠券信息</td>
+                        <td></td>
+                    </tr>
+                    <tr class="level-data hide" id="voucher_detail_list">
+                        <td colspan="6">
+                            <ul class="level-1">
+                                <li>id</li>
+                                <li>String</li>
+                                <li>是</li>
+                                <li>32</li>
+                                <li>券id</li>
+                                <li>2015102600073002039000002D5O</li>
+                            </ul>
+                            <ul class="level-1">
+                                <li>name</li>
+                                <li>String</li>
+                                <li>是</li>
+                                <li>64</li>
+                                <li>券名称</li>
+                                <li>XX超市5折优惠</li>
+                            </ul>
+                            <ul class="level-1">
+                                <li>type</li>
+                                <li>String</li>
+                                <li>是</li>
+                                <li>32</li>
+                                <li>当前有三种类型：ALIPAY_FIX_VOUCHER - 全场代金券 ALIPAY_DISCOUNT_VOUCHER - 折扣券 ALIPAY_ITEM_VOUCHER - 单品优惠 注：不排除将来新增其他类型的可能，商家接入时注意兼容性避免硬编码</li>
+                                <li></li>
+                            </ul>
+                            <ul class="level-1">
+                                <li>amount</li>
+                                <li>Price</li>
+                                <li>是</li>
+                                <li>8</li>
+                                <li>优惠券面额，它应该会等于商家出资加上其他出资方出资</li>
+                                <li>10.00</li>
+                            </ul>
+                            <ul class="level-1 level-control" data-open="#voucher">
+                                <li>
+                                    <i class="fa fa-plus-square-o"></i>
+                                    <i class="fa fa-minus-square-o hide"></i>
+                                    merchant_contribute
+                                </li>
+                                <li>Price</li>
+                                <li>否</li>
+                                <li>8</li>
+                                <li>商家出资（特指发起交易的商家出资金额）</li>
+                                <li>9.00</li>
+                            </ul>
+                            
+                            <div class="level-data hide" id="voucher">
+                                <ul class="level-2">
+                                    <li>id</li>
+                                    <li>String</li>
+                                    <li>是</li>
+                                    <li>32</li>
+                                    <li>券id</li>
+                                    <li>2015102600073002039000002D5O</li>
+                                </ul>
+                                <ul class="level-2">
+                                    <li>name</li>
+                                    <li>String</li>
+                                    <li>是</li>
+                                    <li>64</li>
+                                    <li>券名称</li>
+                                    <li>XX超市5折优惠</li>
+                                </ul>
+                            </div>
+                            
+
+                            <ul class="level-1">
+                                <li>other_contribute</li>
+                                <li>Price</li>
+                                <li>否</li>
+                                <li>8</li>
+                                <li>其他出资方出资金额，可能是支付宝，可能是品牌商，或者其他方，也可能是他们的一起出资</li>
+                                <li>1.00</li>
+                            </ul>
+                            <ul class="level-1">
+                                <li>memo</li>
+                                <li>String</li>
+                                <li>否</li>
+                                <li>256</li>
+                                <li>优惠券备注信息</li>
+                                <li>学生专用优惠</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    
+                </table>
+            </div>
+            <!-- ./响应参数 -->
+
+            <!-- 业务错误码 -->
+            <div class="data error">
+                <h5>业务错误码</h5>
+                <table>
+                    <tr>
+                        <th>错误码</th>
+                        <th>错误描述</th>
+                        <th>解决方案</th>
+                    </tr>
+                    <tr>
+                        <td>ACQ.SYSTEM_ERROR</td>
+                        <td>系统错误</td>
+                        <td>重新发起请求</td>
+                    </tr>
+                    <tr>
+                        <td>ACQ.INVALID_PARAMETER</td>
+                        <td>参数无效</td>
+                        <td>检查请求参数，修改后重新发起请求</td>
+                    </tr>
+                    <tr>
+                        <td>ACQ.TRADE_NOT_EXIST</td>
+                        <td>查询的交易不存在</td>
+                        <td>检查传入的交易号是否正确，修改后重新发起请求</td>
+                    </tr>
+                </table>
+            </div>
+            <!-- ./业务错误码 -->
+
+        </div>
+        <!-- content -->
+    </div>
+<script src="js/api.js"></script>
+<script src="js/index.js"></script>
+</body>
+
+</html>

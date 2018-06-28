@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.hualuomoli.sample.mq.sender.base.query.mapper.UserQueryMapper">
+
+  <!-- 返回的列 -->
+  <sql id="columns">
+    `id` as "id",
+    `username` as "username",
+    `nickname` as "nickname",
+    `age` as "age",
+    `sex` as "sex",
+    `state` as "state",
+    `status` as "status",
+    `remark` as "remark"
+  </sql>
+  
+  <!-- 查询的列 -->
+  <sql id="querys">
+    <if test="username != null and username != ''">
+      and `username` = #{username}
+    </if>
+    <if test="usernameLeftLike != null and usernameLeftLike != ''"> 
+      and `username` like CONCAT(#{usernameLeftLike}, '%')
+    </if>
+    <if test="usernameRightLike != null and usernameRightLike != ''"> 
+      and `username` like CONCAT('%', #{usernameRightLike})
+    </if>
+    <if test="usernameLike != null and usernameLike != ''"> 
+      and `username` like CONCAT('%', #{usernameLike}, '%')
+    </if>
+    <if test="nickname != null and nickname != ''">
+      and `nickname` = #{nickname}
+    </if>
+    <if test="nicknameLeftLike != null and nicknameLeftLike != ''"> 
+      and `nickname` like CONCAT(#{nicknameLeftLike}, '%')
+    </if>
+    <if test="nicknameRightLike != null and nicknameRightLike != ''"> 
+      and `nickname` like CONCAT('%', #{nicknameRightLike})
+    </if>
+    <if test="nicknameLike != null and nicknameLike != ''"> 
+      and `nickname` like CONCAT('%', #{nicknameLike}, '%')
+    </if>
+    <if test="age != null">
+      and `age` = #{age}
+    </if>
+    <if test="ageGreaterThan != null"> 
+      and `age` <![CDATA[ > ]]> #{ageGreaterThan}
+    </if>
+    <if test="ageGreaterEqual != null"> 
+      and `age` <![CDATA[ >= ]]> #{ageGreaterEqual}
+    </if>
+    <if test="ageLessThan != null"> 
+      and `age` <![CDATA[ < ]]> #{ageLessThan}
+    </if>
+    <if test="ageLessEqual != null"> 
+      and `age` <![CDATA[ <= ]]> #{ageLessEqual}
+    </if>
+    <if test="sex != null and sex != ''">
+      and `sex` = #{sex}
+    </if>
+    <if test="sexLeftLike != null and sexLeftLike != ''"> 
+      and `sex` like CONCAT(#{sexLeftLike}, '%')
+    </if>
+    <if test="sexRightLike != null and sexRightLike != ''"> 
+      and `sex` like CONCAT('%', #{sexRightLike})
+    </if>
+    <if test="sexLike != null and sexLike != ''"> 
+      and `sex` like CONCAT('%', #{sexLike}, '%')
+    </if>
+    <if test="state != null">
+      and `state` = #{state}
+    </if>
+    <if test="stateIns != null">
+      <foreach collection="stateIns" item="obj" open="and (" close=")" separator="or">
+        `state` = #{obj}
+      </foreach>
+    </if>
+    <if test="stateNotIns != null">
+      <foreach collection="stateNotIns" item="obj" open="and (" close=")" separator="and">
+        `state` <![CDATA[ <> ]]> #{obj}
+      </foreach>
+    </if>
+    <if test="status != null">
+      and `status` = #{status}
+    </if>
+    <if test="statusIns != null">
+      <foreach collection="statusIns" item="obj" open="and (" close=")" separator="or">
+        `status` = #{obj}
+      </foreach>
+    </if>
+    <if test="statusNotIns != null">
+      <foreach collection="statusNotIns" item="obj" open="and (" close=")" separator="and">
+        `status` <![CDATA[ <> ]]> #{obj}
+      </foreach>
+    </if>
+    <if test="remark != null and remark != ''">
+      and `remark` = #{remark}
+    </if>
+    <if test="remarkLeftLike != null and remarkLeftLike != ''"> 
+      and `remark` like CONCAT(#{remarkLeftLike}, '%')
+    </if>
+    <if test="remarkRightLike != null and remarkRightLike != ''"> 
+      and `remark` like CONCAT('%', #{remarkRightLike})
+    </if>
+    <if test="remarkLike != null and remarkLike != ''"> 
+      and `remark` like CONCAT('%', #{remarkLike}, '%')
+    </if>
+  </sql>
+  
+  <!-- 查询列表 -->
+  <select id="findList" resultType="com.github.hualuomoli.sample.mq.sender.base.entity.User">
+    select
+      <include refid="columns" />
+    from `t_user`
+    <where>
+      <include refid="querys" />
+    </where>
+  </select>
+  
+</mapper>

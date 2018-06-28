@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>com.github.hualuomoli</groupId>
+    <artifactId>hualuomoli</artifactId>
+    <version>1.6.5</version>
+    <relativePath>../pom.xml</relativePath>
+  </parent>
+
+  <artifactId>hualuomoli-apidoc</artifactId>
+  <packaging>jar</packaging>
+
+  <properties>
+
+    <commons-io.version>2.4</commons-io.version>
+    <fastjson.version>1.2.11</fastjson.version>
+
+  </properties>
+
+  <dependencies>
+
+    <!-- logging -->
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <version>${slf4j.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>commons-io</groupId>
+      <artifactId>commons-io</artifactId>
+      <version>${commons-io.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.github.hualuomoli</groupId>
+      <artifactId>hualuomoli-tools</artifactId>
+      <version>${project.parent.version}</version>
+    </dependency>
+
+    <!-- ==================== test ==================== -->
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>${junit.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <!-- log4j12 -->
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-log4j12</artifactId>
+      <version>${slf4j.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <!-- fastjson -->
+    <dependency>
+      <groupId>com.alibaba</groupId>
+      <artifactId>fastjson</artifactId>
+      <version>${fastjson.version}</version>
+    </dependency>
+
+
+  </dependencies>
+
+</project>
