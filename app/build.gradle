@@ -1,0 +1,104 @@
+apply plugin: 'com.android.application'
+
+// 读取配置文件
+Properties properties = new Properties()
+properties.load(rootProject.file('app/jks/jks.properties').newDataInputStream())
+properties.load(rootProject.file('local.properties').newDataInputStream()) // 实际发布服务器信息在local中配置
+
+// 项目信息
+def jks_keyAlias = properties.getProperty('jks.keyAlias')
+def jks_keyPassword = properties.getProperty('jks.keyPassword')
+def jks_storePassword = properties.getProperty('jks.storePassword')
+
+android {
+    compileSdkVersion rootProject.ext.depsVersion.compileSdkVersion
+    buildToolsVersion rootProject.ext.depsVersion.buildToolsVersion
+    defaultConfig {
+        applicationId "com.github.hualuomoli.app"
+        minSdkVersion rootProject.ext.depsVersion.minSdkVersion
+        targetSdkVersion rootProject.ext.depsVersion.targetSdkVersion
+        versionCode rootProject.ext.depsVersion.versionCode
+        versionName rootProject.ext.depsVersion.versionName
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+
+    // 签名
+    signingConfigs {
+        release {
+            storeFile file('jks/hualuomoli.jks')
+            storePassword jks_storePassword
+            keyAlias jks_keyAlias
+            keyPassword jks_keyPassword
+        }
+        beta {
+            storeFile file('jks/hualuomoli.jks')
+            storePassword jks_storePassword
+            keyAlias jks_keyAlias
+            keyPassword jks_keyPassword
+        }
+        debug {
+            storeFile file('jks/hualuomoli.jks')
+            storePassword jks_storePassword
+            keyAlias jks_keyAlias
+            keyPassword jks_keyPassword
+        }
+    }
+
+    buildTypes {
+        // 发布版
+        release {
+            // 压缩
+            minifyEnabled true
+            // 混淆
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), // 采用压缩方式
+                          'proguard-rules.pro',
+                          './proguard/proguard-okhttp.pro',
+                          './proguard/proguard-hualuomoli.pro',
+                          './proguard/proguard-logger.pro', // 移除不必要的Log日志
+                          './proguard/proguard-dic.pro' // 使用自定义字典
+            // 签名
+            signingConfig signingConfigs.release
+            // 压缩资源文件
+            shrinkResources true
+        }
+        // 内侧版
+        beta {
+            // 压缩
+            minifyEnabled true
+            // 混淆
+            proguardFiles getDefaultProguardFile('proguard-android.txt'),
+                    'proguard-rules.pro',
+                    './proguard/proguard-okhttp.pro',
+                    './proguard/proguard-hualuomoli.pro'
+            // 签名
+            signingConfig signingConfigs.release
+        }
+        // 测试版
+        debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.debug
+        }
+    }
+
+    // 定义apk包的名称
+    applicationVariants.all{ variant->
+        variant.outputs.each { output->
+            // 支付控件Demo@1.0@20180418@debug.apk
+            def current = new Date().format("yyyyMMdd");
+            def apkName = "APP" + "@" + defaultConfig.versionName + "@" + current + "@" + buildType.name + ".apk";
+            output.outputFile = new File(output.outputFile.parent, apkName)
+        }
+    }
+
+    // end android
+}
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+
+    compile project(':demo')
+
+    compile rootProject.ext.deps.support
+}

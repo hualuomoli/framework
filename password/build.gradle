@@ -1,0 +1,34 @@
+apply plugin: 'com.android.library'
+apply plugin: 'maven'
+// 配置参数
+ext {
+    maven_artifactId = 'hualuomoli-password'
+    maven_description = '密码键盘'
+}
+apply from: rootProject.file('maven-android.gradle')
+
+android {
+    compileSdkVersion rootProject.ext.depsVersion.compileSdkVersion
+    buildToolsVersion rootProject.ext.depsVersion.buildToolsVersion
+
+    defaultConfig {
+        minSdkVersion rootProject.ext.depsVersion.minSdkVersion
+        targetSdkVersion rootProject.ext.depsVersion.targetSdkVersion
+        versionCode rootProject.ext.depsVersion.versionCode
+        versionName rootProject.ext.depsVersion.versionName
+    }
+}
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+
+    compile project(':logger')
+    compile project(':commons')
+    compile project(':security')
+    compile project(':async')
+
+    compile rootProject.ext.deps.support
+    testCompile rootProject.ext.deps.junit
+
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+}

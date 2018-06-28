@@ -1,0 +1,70 @@
+// 读取配置文件
+Properties properties = new Properties()
+properties.load(rootProject.file('maven.properties').newDataInputStream())
+properties.load(rootProject.file('local.properties').newDataInputStream()) // 实际发布服务器信息在local中配置
+
+// 项目信息
+def maven_groupId = properties.getProperty('maven.groupId')
+def maven_version = properties.getProperty('maven.version')
+
+// 发布版
+def maven_release_url = properties.getProperty('maven.release.url')
+def maven_release_username = properties.getProperty('maven.release.username')
+def maven_release_password = properties.getProperty('maven.release.password')
+
+// 快照版
+def maven_snapshot_url = properties.getProperty('maven.snapshot.url')
+def maven_snapshot_username = properties.getProperty('maven.snapshot.username')
+def maven_snapshot_password = properties.getProperty('maven.snapshot.password')
+
+// 源码
+task androidSourcesJar(type: Jar) {
+    classifier = 'sources'
+    from android.sourceSets.main.java.sourceFiles
+}
+
+// 文档
+task androidJavadocs(type: Javadoc) {
+    source = android.sourceSets.main.java.srcDirs
+    ext.androidJar = "${android.sdkDirectory}/platforms/${android.compileSdkVersion}/android.jar"
+    classpath += files(ext.androidJar)
+}
+
+task androidJavadocsJar(type: Jar, dependsOn: androidJavadocs) {
+    classifier = 'javadoc'
+    androidJavadocs.options.encoding = "UTF-8"
+    from androidJavadocs.destinationDir
+}
+
+// 构建
+artifacts {
+    archives androidSourcesJar
+    archives androidJavadocsJar
+}
+
+// 发布
+uploadArchives {
+    repositories {
+        mavenDeployer {
+
+            pom.project {
+                groupId maven_groupId
+                artifactId maven_artifactId
+                version maven_version
+                description maven_description
+            }
+
+            // 发布版
+            repository(url: maven_release_url) {
+                authentication(userName: maven_release_username, password: maven_release_password)
+            }
+
+            // 快照版
+            snapshotRepository(url: maven_snapshot_url) {
+                authentication(userName: maven_snapshot_username, password: maven_snapshot_password)
+            }
+            // end
+
+        }
+    }
+}

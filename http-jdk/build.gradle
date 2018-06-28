@@ -1,0 +1,15 @@
+apply plugin: 'java'
+apply plugin: 'maven-publish'
+// 配置参数
+ext {
+    maven_artifactId = 'hualuomoli-http-jdk'
+}
+apply from: rootProject.file('maven-java.gradle')
+
+dependencies {
+    compile project(':http')
+    compile project(':logger')
+    compile project(':commons')
+
+    testCompile rootProject.ext.deps.junit
+}

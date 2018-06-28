@@ -1,0 +1,14 @@
+apply plugin: 'java'
+apply plugin: 'maven-publish'
+// 配置参数
+ext {
+    maven_artifactId = 'hualuomoli-async'
+}
+apply from: rootProject.file('maven-java.gradle')
+
+
+dependencies {
+    compile project(':logger')
+
+    compileOnly rootProject.ext.deps.android
+}

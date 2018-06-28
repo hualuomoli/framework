@@ -1,0 +1,89 @@
+// 读取配置文件
+Properties properties = new Properties()
+properties.load(rootProject.file('maven.properties').newDataInputStream())
+properties.load(rootProject.file('local.properties').newDataInputStream()) // 实际发布服务器信息在local中配置
+
+// 项目信息
+def maven_groupId = properties.getProperty('maven.groupId')
+def maven_version = properties.getProperty('maven.version')
+
+// 发布版
+def maven_release_url = properties.getProperty('maven.release.url')
+def maven_release_username = properties.getProperty('maven.release.username')
+def maven_release_password = properties.getProperty('maven.release.password')
+
+// 快照版
+def maven_snapshot_url = properties.getProperty('maven.snapshot.url')
+def maven_snapshot_username = properties.getProperty('maven.snapshot.username')
+def maven_snapshot_password = properties.getProperty('maven.snapshot.password')
+
+// 编译环境
+sourceCompatibility = rootProject.ext.depsVersion.java
+targetCompatibility = rootProject.ext.depsVersion.java
+
+// 编译
+tasks.withType(JavaCompile) {
+    options.encoding = "UTF-8"
+}
+
+// 源码
+task sourceJar(type: Jar) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+// 文档
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    javadoc.options.encoding = "UTF-8"
+    from javadoc.destinationDir
+}
+
+// 发布
+publishing {
+
+
+    publications {
+        maven(MavenPublication) {
+            groupId maven_groupId
+            artifactId maven_artifactId
+            version maven_version
+            //若是war包，就写components.web,若是jar包，就写components.java
+            from components.java
+
+            artifact(sourceJar) {
+                classifier = 'sources'
+            }
+            artifact(javadocJar) {
+                classifier = 'javadoc'
+            }
+
+        }
+
+    }
+    repositories {
+
+        maven {
+
+            if (maven_version.endsWith('-SNAPSHOT')) {
+                // 快照版
+                url = maven_snapshot_url
+                credentials {
+                    username maven_snapshot_username
+                    password maven_snapshot_password
+                }
+            } else {
+                // 发布版
+                url = maven_release_url
+                credentials {
+                    username maven_release_username
+                    password maven_release_password
+                }
+            }
+
+            // end
+        }
+    }
+
+}
+

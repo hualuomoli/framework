@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <EditText
+        android:id="@+id/security_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="内容"
+        android:text="这是一段测试内容" />
+
+    <Button
+        android:id="@+id/security_button_sign"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="签名" />
+
+    <EditText
+        android:id="@+id/security_signature_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="签名内容" />
+
+    <Button
+        android:id="@+id/security_button_verify"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="验证签名" />
+
+    <Button
+        android:id="@+id/security_button_encrypt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="加密" />
+
+    <EditText
+        android:id="@+id/security_cipher_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="密文" />
+
+    <Button
+        android:id="@+id/security_button_decrypt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="解密" />
+
+
+</LinearLayout>

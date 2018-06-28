@@ -1,0 +1,18 @@
+apply plugin: 'java'
+apply plugin: 'maven-publish'
+
+// 配置参数
+ext {
+    maven_artifactId = 'hualuomoli-security'
+}
+apply from: rootProject.file('maven-java.gradle')
+
+dependencies {
+    compile project(':logger')
+    compile project(':commons')
+
+    testCompile rootProject.ext.deps.junit
+    testCompile rootProject.ext.deps."commons-io"
+}
+
+

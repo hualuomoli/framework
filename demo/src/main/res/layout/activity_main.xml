@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <Button
+        android:id="@+id/testLogger"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="测试日志" />
+
+    <Button
+        android:id="@+id/testSecurity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="测试安全" />
+
+    <Button
+        android:id="@+id/testTimer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="测试定时器" />
+
+    <Button
+        android:id="@+id/testAsync"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="测试异步操作" />
+
+    <Button
+        android:id="@+id/testPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="密码键盘" />
+
+</LinearLayout>

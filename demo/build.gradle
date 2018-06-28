@@ -1,0 +1,37 @@
+apply plugin: 'com.android.library'
+apply plugin: 'maven'
+// 配置参数
+ext {
+    maven_artifactId = 'hualuomoli-demo'
+    maven_description = 'Demo测试用例'
+}
+apply from: rootProject.file('maven-android.gradle')
+
+android {
+    compileSdkVersion rootProject.ext.depsVersion.compileSdkVersion
+    buildToolsVersion rootProject.ext.depsVersion.buildToolsVersion
+
+    defaultConfig {
+        minSdkVersion rootProject.ext.depsVersion.minSdkVersion
+        targetSdkVersion rootProject.ext.depsVersion.targetSdkVersion
+        versionCode rootProject.ext.depsVersion.versionCode
+        versionName rootProject.ext.depsVersion.versionName
+    }
+}
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+
+    compile project(':logger')
+    compile project(':commons')
+    compile project(':security')
+    compile project(':http')
+    compile project(':http-okhttp')
+    compile project(':http-jdk')
+    compile project(':timer')
+    compile project(':async')
+    compile project(':password')
+
+    compile rootProject.ext.deps.support
+    testCompile rootProject.ext.deps.junit
+}

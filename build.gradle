@@ -1,0 +1,68 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
+// 配置信息
+ext {
+
+    // 依赖包
+    depsVersion = [
+
+        // Android相关
+        compileSdkVersion   : 25,                               // 编译版本
+        minSdkVersion       : 15,                               // 最小支持版本
+        targetSdkVersion    : 25,                               // 目标版本
+        buildToolsVersion   : '25.0.3',                         // 编译Tool版本
+        versionCode         : 1,                                // 版本
+        versionName         : '1.0',                            // 版本
+        java                : '1.7',                            // java版本
+        android             : '4.4.2_r4',
+
+        // 测试相关
+        junit               : '4.12',
+
+        // 依赖
+        okhttp              : '3.10.0',
+        commons_io          : "2.6"
+    ]
+    deps = [
+
+        // Android相关
+        support         : "com.android.support:appcompat-v7:25.3.1",
+        android         : "android:android:${depsVersion.android}",
+
+        // 测试相关
+        junit           : "junit:junit:${depsVersion.junit}",
+
+        // 依赖
+        okhttp          : "com.squareup.okhttp3:okhttp:${depsVersion.okhttp}",
+        "commons-io"    : "commons-io:commons-io:${depsVersion.commons_io}"
+    ]
+
+}
+
+buildscript {
+
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:2.3.3'
+
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+    }
+}
+
+allprojects {
+    repositories {
+        jcenter()
+        // android的包
+        maven {
+            url 'http://repo.boundlessgeo.com/main/'
+        }
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
+

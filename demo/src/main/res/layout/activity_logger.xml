@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+    <TextView android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="请选择日志级别"/>
+
+    <RadioGroup android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/logger_level">
+
+        <RadioButton android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:text="on"
+                     android:id="@+id/logger_level_all"/>
+
+        <RadioButton android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:text="verbose"
+                     android:id="@+id/logger_level_verbose"/>
+
+        <RadioButton android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:text="debug"
+                     android:id="@+id/logger_level_debug"/>
+
+        <RadioButton android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:text="info"
+                     android:id="@+id/logger_level_info"/>
+
+        <RadioButton android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:text="warn"
+                     android:id="@+id/logger_level_warn"/>
+
+        <RadioButton android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:text="error"
+                     android:id="@+id/logger_level_error"/>
+
+        <RadioButton android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:text="off"
+                     android:id="@+id/logger_level_off"/>
+
+    </RadioGroup>
+
+    <Button android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/showLog"
+            android:text="输出日志"/>
+
+</LinearLayout>
