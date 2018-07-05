@@ -29,6 +29,9 @@ public class ReflectionUtils {
   /**
    * 调用Getter方法.
    * 支持多级，如：对象名.对象名.方法
+   * @param obj 实体类
+   * @param propertyName 属性名称(嵌套属性使用逗号分隔user.username)
+   * @return 属性值
    */
   public static Object invokeGetter(Object obj, String propertyName) {
     Object object = obj;
@@ -42,6 +45,9 @@ public class ReflectionUtils {
   /**
    * 调用Setter方法, 仅匹配方法名。
    * 支持多级，如：对象名.对象名.方法
+   * @param obj 实体类
+   * @param propertyName 属性名称(嵌套属性使用逗号分隔user.username)
+   * @param value 属性值
    */
   public static void invokeSetter(Object obj, String propertyName, Object value) {
     Object object = obj;
@@ -59,6 +65,9 @@ public class ReflectionUtils {
 
   /**
    * 直接读取对象属性值, 无视private/protected修饰符, 不经过getter函数.
+   * @param obj 实体类
+   * @param fieldName 属性名称(嵌套属性使用逗号分隔user.username)
+   * @return 属性值
    */
   public static Object getFieldValue(final Object obj, final String fieldName) {
     Field field = getAccessibleField(obj, fieldName);
@@ -78,6 +87,9 @@ public class ReflectionUtils {
 
   /**
    * 直接设置对象属性值, 无视private/protected修饰符, 不经过setter函数.
+   * @param obj 实体类
+   * @param fieldName 属性名称(嵌套属性使用逗号分隔user.username)
+   * @param value 执行值
    */
   public static void setFieldValue(final Object obj, final String fieldName, final Object value) {
     Field field = getAccessibleField(obj, fieldName);
@@ -97,6 +109,11 @@ public class ReflectionUtils {
    * 直接调用对象方法, 无视private/protected修饰符.
    * 用于一次性调用的情况，否则应使用getAccessibleMethod()函数获得Method后反复调用.
    * 同时匹配方法名+参数类型，
+   * @param obj 实体类
+   * @param methodName 方法名
+   * @param parameterTypes 参数类型
+   * @param args 参数值
+   * @return 方法返回结果
    */
   public static Object invokeMethod(final Object obj, final String methodName, final Class<?>[] parameterTypes, final Object[] args) {
     Method method = getAccessibleMethod(obj, methodName, parameterTypes);
@@ -115,6 +132,10 @@ public class ReflectionUtils {
    * 直接调用对象方法, 无视private/protected修饰符，
    * 用于一次性调用的情况，否则应使用getAccessibleMethodByName()函数获得Method后反复调用.
    * 只匹配函数名，如果有多个同名函数调用第一个。
+   * @param obj 实体类
+   * @param methodName 方法名
+   * @param args 参数值
+   * @return 方法返回结果
    */
   public static Object invokeMethodByName(final Object obj, final String methodName, final Object[] args) {
     Method method = getAccessibleMethodByName(obj, methodName);
@@ -133,6 +154,9 @@ public class ReflectionUtils {
    * 循环向上转型, 获取对象的DeclaredField, 并强制设置为可访问.
    * 
    * 如向上转型到Object仍无法找到, 返回null.
+   * @param obj 实体类
+   * @param fieldName 属性名 (嵌套属性使用逗号分隔user.username)
+   * @return 属性
    */
   public static Field getAccessibleField(final Object obj, final String fieldName) {
     Validate.notNull(obj, "object can't be null");
@@ -156,6 +180,10 @@ public class ReflectionUtils {
    * 匹配函数名+参数类型。
    * 
    * 用于方法需要被多次调用的情况. 先使用本函数先取得Method,然后调用Method.invoke(Object obj, Object... args)
+   * @param obj 实体类
+   * @param methodName 方法名
+   * @param parameterTypes 参数类型
+   * @return 方法
    */
   public static Method getAccessibleMethod(final Object obj, final String methodName, final Class<?>... parameterTypes) {
     Validate.notNull(obj, "object can't be null");
@@ -180,6 +208,9 @@ public class ReflectionUtils {
    * 只匹配函数名。
    * 
    * 用于方法需要被多次调用的情况. 先使用本函数先取得Method,然后调用Method.invoke(Object obj, Object... args)
+   * @param obj 实体类
+   * @param methodName 方法名
+   * @return 方法
    */
   public static Method getAccessibleMethodByName(final Object obj, final String methodName) {
     Validate.notNull(obj, "object can't be null");
@@ -199,6 +230,7 @@ public class ReflectionUtils {
 
   /**
    * 改变private/protected的方法为public，尽量不调用实际改动的语句，避免JDK的SecurityManager抱怨。
+   * @param method 方法
    */
   public static void makeAccessible(Method method) {
     if ((!Modifier.isPublic(method.getModifiers()) || !Modifier.isPublic(method.getDeclaringClass().getModifiers())) && !method.isAccessible()) {
@@ -208,6 +240,7 @@ public class ReflectionUtils {
 
   /**
    * 改变private/protected的成员变量为public，尽量不调用实际改动的语句，避免JDK的SecurityManager抱怨。
+   * @param field 属性
    */
   public static void makeAccessible(Field field) {
     if ((!Modifier.isPublic(field.getModifiers()) || !Modifier.isPublic(field.getDeclaringClass().getModifiers()) || Modifier.isFinal(field.getModifiers()))
@@ -220,9 +253,10 @@ public class ReflectionUtils {
    * 通过反射, 获得Class定义中声明的泛型参数的类型, 注意泛型必须定义在父类处
    * 如无法找到, 返回Object.class.
    * eg.
-   * public UserDao extends HibernateDao<User>
+   * <span>public UserDao extends HibernateDao&lt;User&gt;</span>
    *
    * @param clazz The class to introspect
+   * @param <T> 泛型
    * @return the first generic declaration, or Object.class if cannot be determined
    */
   @SuppressWarnings("unchecked")
@@ -234,7 +268,7 @@ public class ReflectionUtils {
    * 通过反射, 获得Class定义中声明的父类的泛型参数的类型.
    * 如无法找到, 返回Object.class.
    * 
-   * 如public UserDao extends HibernateDao<User,Long>
+   * 如<span>public UserDao extends HibernateDao&lt;User, Long$gt;</span>
    *
    * @param clazz clazz The class to introspect
    * @param index the Index of the generic ddeclaration,start from 0.
@@ -263,6 +297,11 @@ public class ReflectionUtils {
     return (Class) params[index];
   }
 
+  /**
+   * 获取类
+   * @param instance 实例
+   * @return 类对象
+   */
   public static Class<?> getUserClass(Object instance) {
     if (instance == null) {
       throw new RuntimeException("Instance must not be null");
@@ -280,6 +319,8 @@ public class ReflectionUtils {
 
   /**
    * 将反射时的checked exception转换为unchecked exception.
+   * @param e 异常
+   * @return 包装的运行时异常
    */
   public static RuntimeException convertReflectionExceptionToUnchecked(Exception e) {
     if (e instanceof IllegalAccessException || e instanceof IllegalArgumentException || e instanceof NoSuchMethodException) {

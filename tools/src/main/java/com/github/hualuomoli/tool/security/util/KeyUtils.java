@@ -134,6 +134,7 @@ public final class KeyUtils {
   /**
    * 获取RSA的X509公钥模长度
    * @param publicKey 公钥字节码
+   * @param keyAlgorithm 秘钥算法
    * @return 公钥模长度
    * @throws KeyException 获取公钥模长度失败
    */
