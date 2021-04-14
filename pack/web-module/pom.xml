@@ -10,13 +10,7 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>pack-web-pure</artifactId>
-
-    <properties>
-        <!-- 项目根路径 -->
-        <!--suppress UnresolvedMavenProperty -->
-        <rootPath>${maven.multiModuleProjectDirectory}</rootPath>
-    </properties>
+    <artifactId>pack-web-module</artifactId>
 
     <dependencies>
 
@@ -32,7 +26,7 @@
             <artifactId>hualuomoli-boot-autoconfigure</artifactId>
         </dependency>
 
-        <!-- module -->
+        <!-- Module -->
         <dependency>
             <groupId>com.github.hualuomoli</groupId>
             <artifactId>pack-base</artifactId>
@@ -61,11 +55,19 @@
                 <version>${spring-boot.version}</version>
                 <configuration>
                     <layout>ZIP</layout>
-                    <!-- 不含任何依赖 -->
+                    <!-- 依赖本项目 -->
                     <includes>
                         <include>
-                            <groupId>nothing</groupId>
-                            <artifactId>nothing</artifactId>
+                            <groupId>com.github.hualuomoli</groupId>
+                            <artifactId>hualuomoli-boot-autoconfigure</artifactId>
+                        </include>
+                        <include>
+                            <groupId>com.github.hualuomoli</groupId>
+                            <artifactId>pack-base</artifactId>
+                        </include>
+                        <include>
+                            <groupId>com.github.hualuomoli</groupId>
+                            <artifactId>pack-common</artifactId>
                         </include>
                     </includes>
                 </configuration>
@@ -99,63 +101,6 @@
                             <!-- 忽略当前项目的依赖 -->
                             <excludeGroupIds>com.github.hualuomoli</excludeGroupIds>
                             <excludeArtifactIds>pack.base,pack.common</excludeArtifactIds>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <!-- 复制当前项目的代码到target -->
-            <!-- http://ant.apache.org/manual/tasksoverview.html -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-antrun-plugin</artifactId>
-                <version>1.8</version>
-                <executions>
-                    <execution>
-                        <phase>prepare-package</phase>
-                        <goals>
-                            <goal>run</goal>
-                        </goals>
-                        <configuration>
-                            <target>
-
-                                <!-- 复制classes目录下的文件 -->
-                                <echo>Copy classes</echo>
-                                <copy todir="./target/classes">
-                                    <fileset dir="${rootPath}/autoconfigure/target/classes"/>
-                                    <fileset dir="${rootPath}/pack/base/target/classes"/>
-                                    <fileset dir="${rootPath}/pack/common/target/classes"/>
-                                </copy>
-
-                                <!-- END -->
-                                <echo>END</echo>
-                            </target>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <!-- 合并spring.factories -->
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>exec-maven-plugin</artifactId>
-                <version>3.0.0</version>
-                <executions>
-                    <execution>
-                        <phase>prepare-package</phase>
-                        <goals>
-                            <goal>java</goal>
-                        </goals>
-                        <configuration>
-                            <mainClass>pack.web.pure.maven.CombineSpringFactories</mainClass>
-                            <arguments>
-                                <argument>${rootPath}/pack/web-pure</argument>
-                                <argument>
-                                    ${rootPath}/autoconfigure,
-                                    ${rootPath}/pack/base,
-                                    ${rootPath}/pack/common
-                                </argument>
-                            </arguments>
                         </configuration>
                     </execution>
                 </executions>

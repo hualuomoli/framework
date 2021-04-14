@@ -23,7 +23,7 @@
         <!-- Boot -->
         <dependency>
             <groupId>com.github.hualuomoli</groupId>
-            <artifactId>hualuomli-boot-autoconfigure</artifactId>
+            <artifactId>hualuomoli-boot-autoconfigure</artifactId>
         </dependency>
 
         <!-- test -->

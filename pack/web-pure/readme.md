@@ -22,5 +22,5 @@ exec-maven-plugin
 
 ## 启动
 ```
-java -jar -Dloader.lib=LIB目录 jar文件
+java -jar -Dloader.path=LIB目录 jar文件
 ```

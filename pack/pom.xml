@@ -18,6 +18,7 @@
         <module>base</module>
         <module>common</module>
         <module>web-pure</module>
+        <module>web-module</module>
     </modules>
 
     <dependencyManagement>
@@ -26,7 +27,7 @@
             <!-- Boot -->
             <dependency>
                 <groupId>com.github.hualuomoli</groupId>
-                <artifactId>hualuomli-boot-autoconfigure</artifactId>
+                <artifactId>hualuomoli-boot-autoconfigure</artifactId>
                 <version>${project.parent.version}</version>
             </dependency>
 

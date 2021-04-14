@@ -10,7 +10,7 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>hualuomli-boot-autoconfigure</artifactId>
+    <artifactId>hualuomoli-boot-autoconfigure</artifactId>
     <name>boot-autoconfigure</name>
     <description>Boot Auto Configure</description>
 
