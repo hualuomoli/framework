@@ -1,6 +1,6 @@
 package sample.autoconfigure.env;
 
-import com.github.hualjomoli.boot.autoconfigure.env.FileEnvironmentPostProcessor;
+import com.github.hualuomoli.boot.autoconfigure.env.FileEnvironmentPostProcessor;
 
 public class SampleFileEnvironmentPostProcessor extends FileEnvironmentPostProcessor {
 

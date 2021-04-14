@@ -1,6 +1,6 @@
 package sample.autoconfigure.logback;
 
-import com.github.hualjomoli.boot.autoconfigure.logback.ClasspathLogbackInitializer;
+import com.github.hualuomoli.boot.autoconfigure.logback.ClasspathLogbackInitializer;
 
 public class SampleClasspathLogbackInitializer extends ClasspathLogbackInitializer {
 

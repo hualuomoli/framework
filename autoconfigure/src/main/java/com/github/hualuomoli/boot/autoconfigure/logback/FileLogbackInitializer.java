@@ -1,4 +1,4 @@
-package com.github.hualjomoli.boot.autoconfigure.logback;
+package com.github.hualuomoli.boot.autoconfigure.logback;
 
 import org.springframework.context.ConfigurableApplicationContext;
 

@@ -1,6 +1,6 @@
 package sample.autoconfigure.logback;
 
-import com.github.hualjomoli.boot.autoconfigure.logback.UrlLogbackInitializer;
+import com.github.hualuomoli.boot.autoconfigure.logback.UrlLogbackInitializer;
 import sample.autoconfigure.env.SampleFileEnvironmentPostProcessor;
 
 import java.io.File;

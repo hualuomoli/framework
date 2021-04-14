@@ -1,4 +1,4 @@
-package com.github.hualjomoli.boot.autoconfigure.env;
+package com.github.hualuomoli.boot.autoconfigure.env;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.core.Ordered;

@@ -1,6 +1,6 @@
 package sample.autoconfigure.logback;
 
-import com.github.hualjomoli.boot.autoconfigure.logback.FileLogbackInitializer;
+import com.github.hualuomoli.boot.autoconfigure.logback.FileLogbackInitializer;
 import sample.autoconfigure.env.SampleFileEnvironmentPostProcessor;
 
 public class SampleFileLogbackInitializer extends FileLogbackInitializer {

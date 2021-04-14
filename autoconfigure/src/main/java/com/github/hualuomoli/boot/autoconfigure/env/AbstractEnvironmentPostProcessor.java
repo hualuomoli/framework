@@ -1,4 +1,4 @@
-package com.github.hualjomoli.boot.autoconfigure.env;
+package com.github.hualuomoli.boot.autoconfigure.env;
 
 import org.springframework.beans.factory.config.YamlPropertiesFactoryBean;
 import org.springframework.boot.env.EnvironmentPostProcessor;

@@ -1,6 +1,6 @@
 package sample.autoconfigure.env;
 
-import com.github.hualjomoli.boot.autoconfigure.env.ClasspathEnvironmentPostProcessor;
+import com.github.hualuomoli.boot.autoconfigure.env.ClasspathEnvironmentPostProcessor;
 
 public class SampleClasspathEnvironmentPostProcessor extends ClasspathEnvironmentPostProcessor {
 
