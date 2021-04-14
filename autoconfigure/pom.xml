@@ -11,6 +11,7 @@
     </parent>
 
     <artifactId>hualuomli-boot-autoconfigure</artifactId>
+    <name>boot-autoconfigure</name>
     <description>Boot Auto Configure</description>
 
     <dependencies>
