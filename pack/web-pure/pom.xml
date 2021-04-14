@@ -125,27 +125,35 @@
                                     <fileset dir="${rootPath}/pack/common/target/classes"/>
                                 </copy>
 
-                                <!-- 合并spring.factories -->
-                                <echo>combine spring.factories</echo>
-                                <delete file="./target/classes/META-INF/spring.factories"/>
-                                <touch file="./target/classes/META-INF/spring.factories"/>
-                                <concat destfile="./target/classes/META-INF/spring.factories" append="true">
-                                    <fileset dir="${rootPath}/autoconfigure/target/classes" includes="**/spring.factories"/>
-                                    <fileset dir="${rootPath}/pack/base/target/classes" includes="**/spring.factories"/>
-                                    <fileset dir="${rootPath}/pack/common/target/classes" includes="**/spring.factories"/>
-                                    <fileset dir="./src/main/resources" includes="**/spring.factories"/>
-                                </concat>
-
-                                <!-- logback -->
-                                <echo>copy logback</echo>
-                                <delete dir="./target/classes" includes="**/*logback*.xml"/>
-                                <copy todir="./target/classes">
-                                    <fileset dir="./src/main/resources" includes="**/*logback*.xml"/>
-                                </copy>
-
                                 <!-- END -->
                                 <echo>END</echo>
                             </target>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- 合并spring.factories -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>3.0.0</version>
+                <executions>
+                    <execution>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>java</goal>
+                        </goals>
+                        <configuration>
+                            <mainClass>pack.web.pure.maven.CombineSpringFactories</mainClass>
+                            <arguments>
+                                <argument>${rootPath}/pack/web-pure</argument>
+                                <argument>
+                                    ${rootPath}/autoconfigure,
+                                    ${rootPath}/pack/base,
+                                    ${rootPath}/pack/common
+                                </argument>
+                            </arguments>
                         </configuration>
                     </execution>
                 </executions>
