@@ -1,0 +1,17 @@
+# more use \ separator
+
+# logback
+org.springframework.context.ApplicationContextInitializer=\
+sample.autoconfigure.logback.SampleClasspathLogbackInitializer,\
+sample.autoconfigure.logback.SampleFileLogbackInitializer,\
+sample.autoconfigure.logback.SampleUrlLogbackInitializer
+
+# application
+org.springframework.boot.env.EnvironmentPostProcessor=\
+sample.autoconfigure.env.SampleClasspathEnvironmentPostProcessor,\
+sample.autoconfigure.env.SampleFileEnvironmentPostProcessor
+
+# configuration
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+sample.other.configuration.OtherConfiguration
+
