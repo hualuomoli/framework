@@ -13,6 +13,7 @@
     <modules>
         <module>autoconfigure</module>
         <module>sample</module>
+        <module>pack</module>
     </modules>
 
     <properties>

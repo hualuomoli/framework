@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.github.hualuomoli</groupId>
+        <artifactId>pack-parent</artifactId>
+        <version>1.0.0.SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <artifactId>pack-web-pure</artifactId>
+
+    <properties>
+        <!-- 项目根路径 -->
+        <!--suppress UnresolvedMavenProperty -->
+        <rootPath>${maven.multiModuleProjectDirectory}</rootPath>
+    </properties>
+
+    <dependencies>
+
+        <!-- Spring Boot -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <!-- Boot -->
+        <dependency>
+            <groupId>com.github.hualuomoli</groupId>
+            <artifactId>hualuomli-boot-autoconfigure</artifactId>
+        </dependency>
+
+        <!-- module -->
+        <dependency>
+            <groupId>com.github.hualuomoli</groupId>
+            <artifactId>pack-base</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.github.hualuomoli</groupId>
+            <artifactId>pack-common</artifactId>
+        </dependency>
+
+        <!-- test -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+    </dependencies>
+
+    <build>
+        <plugins>
+
+            <!-- 打包不添加依赖 -->
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>${spring-boot.version}</version>
+                <configuration>
+                    <layout>ZIP</layout>
+                    <includes>
+                        <include>
+                            <groupId>nothing</groupId>
+                            <artifactId>nothing</artifactId>
+                        </include>
+                    </includes>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- 复制依赖到lib目录 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy-dependencies</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>target/lib</outputDirectory>
+                            <excludeTransitive>false</excludeTransitive>
+                            <stripVersion>false</stripVersion>
+                            <includeScope>runtime</includeScope>
+                            <!-- 忽略当前项目的依赖 -->
+                            <excludeGroupIds>com.github.hualuomoli</excludeGroupIds>
+                            <excludeArtifactIds>pack.base,pack.common</excludeArtifactIds>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- 复制当前项目的代码到target -->
+            <!-- http://ant.apache.org/manual/tasksoverview.html -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>1.8</version>
+                <executions>
+                    <execution>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target>
+
+                                <!-- 复制classes目录下的文件 -->
+                                <echo>Copy classes</echo>
+                                <copy todir="./target/classes">
+                                    <fileset dir="${rootPath}/autoconfigure/target/classes"/>
+                                    <fileset dir="${rootPath}/pack/base/target/classes"/>
+                                    <fileset dir="${rootPath}/pack/common/target/classes"/>
+                                </copy>
+
+                                <!-- 合并spring.factories -->
+                                <echo>combine spring.factories</echo>
+                                <delete file="./target/classes/META-INF/spring.factories"/>
+                                <touch file="./target/classes/META-INF/spring.factories"/>
+                                <concat destfile="./target/classes/META-INF/spring.factories" append="true">
+                                    <fileset dir="${rootPath}/autoconfigure/target/classes" includes="**/spring.factories"/>
+                                    <fileset dir="${rootPath}/pack/base/target/classes" includes="**/spring.factories"/>
+                                    <fileset dir="${rootPath}/pack/common/target/classes" includes="**/spring.factories"/>
+                                    <fileset dir="./src/main/resources" includes="**/spring.factories"/>
+                                </concat>
+
+                                <!-- logback -->
+                                <echo>copy logback</echo>
+                                <delete dir="./target/classes" includes="**/*logback*.xml"/>
+                                <copy todir="./target/classes">
+                                    <fileset dir="./src/main/resources" includes="**/*logback*.xml"/>
+                                </copy>
+
+                                <!-- END -->
+                                <echo>END</echo>
+                            </target>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+        </plugins>
+    </build>
+
+</project>

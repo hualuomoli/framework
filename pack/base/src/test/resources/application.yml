@@ -1,0 +1,4 @@
+
+
+spring.application.name: pack base
+server.port: 8080

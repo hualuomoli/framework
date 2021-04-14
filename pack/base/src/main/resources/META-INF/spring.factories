@@ -1,0 +1,7 @@
+
+org.springframework.boot.env.EnvironmentPostProcessor=\
+pack.base.boot.PackBaseClasspathEnvironmentPostProcessor
+
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+pack.base.configuration.PackBaseConfiguration
+

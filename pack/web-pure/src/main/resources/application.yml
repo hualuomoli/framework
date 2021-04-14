@@ -1,0 +1,4 @@
+
+
+spring.application.name: pure pack web
+server.port: 8080
