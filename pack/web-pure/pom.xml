@@ -61,6 +61,7 @@
                 <version>${spring-boot.version}</version>
                 <configuration>
                     <layout>ZIP</layout>
+                    <!-- 不含任何依赖 -->
                     <includes>
                         <include>
                             <groupId>nothing</groupId>
@@ -90,6 +91,7 @@
                             <goal>copy-dependencies</goal>
                         </goals>
                         <configuration>
+                            <!-- 依赖JAR包存储位置 -->
                             <outputDirectory>target/lib</outputDirectory>
                             <excludeTransitive>false</excludeTransitive>
                             <stripVersion>false</stripVersion>
