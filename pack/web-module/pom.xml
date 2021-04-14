@@ -100,7 +100,7 @@
                             <includeScope>runtime</includeScope>
                             <!-- 忽略当前项目的依赖 -->
                             <excludeGroupIds>com.github.hualuomoli</excludeGroupIds>
-                            <excludeArtifactIds>pack.base,pack.common</excludeArtifactIds>
+                            <excludeArtifactIds>hualuomoli-boot-autoconfigure,pack.base,pack.common</excludeArtifactIds>
                         </configuration>
                     </execution>
                 </executions>
