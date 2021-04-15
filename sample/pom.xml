@@ -16,6 +16,7 @@
 
     <modules>
         <module>autoconfigure</module>
+        <module>mvc</module>
     </modules>
 
     <dependencyManagement>
@@ -25,6 +26,11 @@
             <dependency>
                 <groupId>com.github.hualuomoli</groupId>
                 <artifactId>hualuomoli-boot-autoconfigure</artifactId>
+                <version>${project.parent.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.hualuomoli</groupId>
+                <artifactId>hualuomoli-boot-mvc</artifactId>
                 <version>${project.parent.version}</version>
             </dependency>
 
