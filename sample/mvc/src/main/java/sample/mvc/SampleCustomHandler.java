@@ -16,6 +16,12 @@ public class SampleCustomHandler implements CustomHandler {
 
     @Override
     public boolean customClass(Class<?> clazz) {
+
+        // ignore enum
+        if (Enum.class.isAssignableFrom(clazz)) {
+            return false;
+        }
+
         return clazz.getName().startsWith(basePackage);
     }
 
