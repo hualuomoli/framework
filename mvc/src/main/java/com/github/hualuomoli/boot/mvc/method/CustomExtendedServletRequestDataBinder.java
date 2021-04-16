@@ -126,7 +126,6 @@ public class CustomExtendedServletRequestDataBinder extends ExtendedServletReque
         Class<?> currentClass = clazz;
         String fieldName = null;
 
-        List<Field> fields = null;
         String content = null;
         String group = null;
         for (int i = 0; i < length; i++) {
@@ -135,23 +134,19 @@ public class CustomExtendedServletRequestDataBinder extends ExtendedServletReque
             fieldName = group;
 
             // 处理可处理的类
-            if (customHandler.customClass(currentClass)) {
-                // 获取参数对应的属性
-                fields = this.getFields(currentClass);
-                currentClass = null;
+            if (currentClass != null && customHandler.customClass(currentClass)) {
+                Field field = this.getField(group, currentClass);
+                if (field == null) {
+                    currentClass = null;
+                } else {
+                    fieldName = field.getName();
+                    currentClass = field.getType();
 
-                for (Field field : fields) {
-                    if (group.equals(Optional.ofNullable(customHandler.parameterName(field)).orElse(field.getName()))) {
-                        fieldName = field.getName();
-                        currentClass = field.getType();
-
-                        // Collection
-                        if (Collection.class.isAssignableFrom(currentClass)) {
-                            currentClass = ResolvableType.forField(field).getGeneric(0).resolve();
-                        }
-
-                        break;
+                    // Collection
+                    if (Collection.class.isAssignableFrom(field.getType())) {
+                        currentClass = ResolvableType.forField(field).getGeneric(0).resolve();
                     }
+
                 }
             }
 
@@ -166,6 +161,58 @@ public class CustomExtendedServletRequestDataBinder extends ExtendedServletReque
 
         // end
         return buffer.toString();
+    }
+
+    /**
+     * 获取类中某个名称的属性(如果未找到返回null)
+     *
+     * @param name  名称
+     * @param clazz 属性
+     * @return 名称对应的属性
+     */
+    private Field getField(String name, Class<?> clazz) {
+        Map<String, Field> fieldMap = CACHE.get(clazz);
+
+        // init to cache
+        if (fieldMap == null) {
+            synchronized (clazz) {
+                fieldMap = CACHE.get(clazz);
+                if (fieldMap == null) {
+                    fieldMap = this.initFieldMap(clazz);
+                    CACHE.put(clazz, fieldMap);
+                }
+            }
+        }
+
+        return fieldMap.get(name);
+    }
+
+    /**
+     * 初始化属性Map
+     *
+     * @param clazz 类型
+     * @return 属性map
+     */
+    private Map<String, Field> initFieldMap(Class<?> clazz) {
+        Map<String, Field> fieldMap = new HashMap<String, Field>();
+
+        List<Field> fields = this.getFields(clazz);
+
+        // default field name
+        for (Field field : fields) {
+            fieldMap.put(field.getName(), field);
+        }
+
+        // parse field name
+        for (Field field : fields) {
+            String parseFieldName = Optional.ofNullable(customHandler.parameterName(field)).orElse(null);
+            if (parseFieldName == null) {
+                continue;
+            }
+            fieldMap.put(parseFieldName, field);
+        }
+
+        return fieldMap;
     }
 
     /**
