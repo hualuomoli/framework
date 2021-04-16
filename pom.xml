@@ -13,7 +13,11 @@
     <modules>
         <module>autoconfigure</module>
         <module>mvc</module>
+
+        <!-- 例子 -->
         <module>sample</module>
+
+        <!-- 打包 -->
         <module>pack</module>
     </modules>
 
