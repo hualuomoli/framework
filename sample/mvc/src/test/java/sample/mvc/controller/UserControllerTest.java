@@ -1,9 +1,13 @@
 package sample.mvc.controller;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.github.hualuomoli.boot.mvc.handler.CustomHandler;
+import com.github.hualuomoli.boot.mvc.method.CustomExtendedServletRequestDataBinder;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -14,9 +18,15 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import java.lang.reflect.Field;
+import java.util.Optional;
+
 @SpringBootTest
 @RunWith(SpringRunner.class)
 public class UserControllerTest {
+
+    @Value(value = "${project.basePackage}")
+    private String basePackage;
 
     @Autowired
     private WebApplicationContext webApplicationContext;
@@ -26,10 +36,24 @@ public class UserControllerTest {
     @Before
     public void before() {
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
+
+        // init custom handler
+        CustomExtendedServletRequestDataBinder.setCustomHandler(new CustomHandler() {
+
+            @Override
+            public boolean customClass(Class<?> clazz) {
+                return clazz.getName().startsWith(basePackage);
+            }
+
+            @Override
+            public String parameterName(Field field) {
+                return Optional.ofNullable(field.getAnnotation(JsonProperty.class)).map(JsonProperty::value).orElse(null);
+            }
+        });
     }
 
     @Test
-    public void getMethod() throws Exception {
+    public void get() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/user/add")
                 .param("username", "hualuomoli")
                 .param("nickname", "花落寞离")
@@ -56,7 +80,7 @@ public class UserControllerTest {
     }
 
     @Test
-    public void getMethodCustom() throws Exception {
+    public void customGet() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/user/add")
                 .param("username", "hualuomoli")
                 .param("nick_name", "花落寞离")
@@ -84,7 +108,7 @@ public class UserControllerTest {
     }
 
     @Test
-    public void formUrlEncodedMethod() throws Exception {
+    public void formUrlEncoded() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.post("/user/add")
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                 .param("username", "hualuomoli")
@@ -112,7 +136,7 @@ public class UserControllerTest {
     }
 
     @Test
-    public void formUrlEncodedMethodCustom() throws Exception {
+    public void customFormUrlEncoded() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.post("/user/add")
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                 .param("username", "hualuomoli")

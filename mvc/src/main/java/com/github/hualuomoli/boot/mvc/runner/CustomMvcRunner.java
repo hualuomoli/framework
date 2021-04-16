@@ -1,7 +1,5 @@
 package com.github.hualuomoli.boot.mvc.runner;
 
-import com.github.hualuomoli.boot.mvc.handler.CustomHandler;
-import com.github.hualuomoli.boot.mvc.method.CustomExtendedServletRequestDataBinder;
 import com.github.hualuomoli.boot.mvc.method.CustomServletModelAttributeMethodProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
@@ -19,14 +17,8 @@ public class CustomMvcRunner implements ApplicationRunner {
     @Autowired
     private RequestMappingHandlerAdapter adapter;
 
-    @Autowired
-    private CustomHandler customHandler;
-
     @Override
     public void run(ApplicationArguments args) throws Exception {
-
-        // 定义处理器
-        CustomExtendedServletRequestDataBinder.setCustomHandler(customHandler);
 
         // 添加自定义参数解析器
         List<HandlerMethodArgumentResolver> argumentResolvers = new ArrayList<HandlerMethodArgumentResolver>(adapter.getArgumentResolvers());

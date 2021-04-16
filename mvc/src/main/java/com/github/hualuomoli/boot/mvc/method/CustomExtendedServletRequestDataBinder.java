@@ -13,6 +13,7 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -51,6 +52,11 @@ public class CustomExtendedServletRequestDataBinder extends ExtendedServletReque
      * @param clazz 类型
      */
     private void replaceCustomParameters(MutablePropertyValues mpvs, Class<?> clazz) {
+
+        // 未定义客户处理器
+        if (customHandler == null) {
+            return;
+        }
 
         PropertyValue[] propertyValues = mpvs.getPropertyValues();
         for (int i = 0; i < propertyValues.length; i++) {
@@ -134,7 +140,7 @@ public class CustomExtendedServletRequestDataBinder extends ExtendedServletReque
             fieldName = group;
 
             // 处理可处理的类
-            if (currentClass != null && customHandler.customClass(currentClass)) {
+            if (currentClass != null && !this.isBasicType(currentClass) && customHandler.customClass(currentClass)) {
                 Field field = this.getField(group, currentClass);
                 if (field == null) {
                     currentClass = null;
@@ -161,6 +167,23 @@ public class CustomExtendedServletRequestDataBinder extends ExtendedServletReque
 
         // end
         return buffer.toString();
+    }
+
+    /**
+     * 是否是基本数据类型
+     *
+     * @param clazz 类型
+     * @return 如果是基本数据类型返回true, 否则返回false
+     */
+    private boolean isBasicType(Class<?> clazz) {
+        return clazz == String.class
+                || clazz == int.class || clazz == Integer.class
+                || clazz == long.class || clazz == Long.class
+                || clazz == double.class || clazz == Double.class
+                || clazz == float.class || clazz == Float.class
+                || clazz == boolean.class || clazz == Boolean.class
+                || clazz == Date.class
+                || Enum.class.isAssignableFrom(clazz);
     }
 
     /**
